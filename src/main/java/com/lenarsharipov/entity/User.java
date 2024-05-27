@@ -1,5 +1,6 @@
 package com.lenarsharipov.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "public")
 public class User {
 
     @Id
@@ -25,7 +26,7 @@ public class User {
 
     private String lastname;
 
-//    @Column(name = "birth_date")
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     private Integer age;

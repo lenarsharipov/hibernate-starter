@@ -11,9 +11,10 @@ import java.time.LocalDate;
 
 public class HibernateRunner {
 
+
     public static void main(String[] args) throws SQLException {
 
-        Configuration configuration = new Configuration();
+        var configuration = new Configuration();
         /*
         * Поле metadataSources отвечает за сущности
         * (нашу метаинформацию)
