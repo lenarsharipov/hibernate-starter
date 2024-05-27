@@ -1,18 +1,18 @@
 package com.lenarsharipov;
 
+import com.lenarsharipov.entity.Role;
 import com.lenarsharipov.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class HibernateRunner {
 
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         var configuration = new Configuration();
         /*
@@ -38,6 +38,7 @@ public class HibernateRunner {
                     .lastname("Ivanov")
                     .birthDate(LocalDate.of(2000, 1, 19))
                     .age(24)
+                    .role(Role.ADMIN)
                     .build();
 
             session.persist(user);
