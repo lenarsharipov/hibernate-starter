@@ -1,5 +1,7 @@
 package com.lenarsharipov;
 
+import com.lenarsharipov.converter.BirthdayConverter;
+import com.lenarsharipov.entity.Birthday;
 import com.lenarsharipov.entity.Role;
 import com.lenarsharipov.entity.User;
 import org.hibernate.Session;
@@ -10,7 +12,6 @@ import org.hibernate.cfg.Configuration;
 import java.time.LocalDate;
 
 public class HibernateRunner {
-
 
     public static void main(String[] args) {
 
@@ -25,6 +26,15 @@ public class HibernateRunner {
         * */
 //        configuration.addAnnotatedClass(User.class);
         configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
+        /*
+        * Теперь конвертер будет использоваться везде
+        * */
+//        configuration.addAttributeConverter(new BirthdayConverter(), true);
+
+        /*
+        * С такой настройкой, надо установить над конвертером @Converter(autoApply = true)
+        * */
+        configuration.addAttributeConverter(new BirthdayConverter());
         configuration.configure();
 
         try (SessionFactory sessionFactory = configuration.buildSessionFactory();
@@ -36,8 +46,7 @@ public class HibernateRunner {
                     .username("ivan@gmail.com")
                     .firstname("Ivan")
                     .lastname("Ivanov")
-                    .birthDate(LocalDate.of(2000, 1, 19))
-                    .age(24)
+                    .birthDate(new Birthday(LocalDate.of(2000, 1, 19)))
                     .role(Role.ADMIN)
                     .build();
 
