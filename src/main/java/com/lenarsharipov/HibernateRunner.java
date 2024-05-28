@@ -50,8 +50,9 @@ public class HibernateRunner {
                     .role(Role.ADMIN)
                     .build();
 
-            session.persist(user);
+//            session.persist(user);
 
+            User user1 = session.get(User.class, "ivan@gmail.com");
             session.getTransaction().commit();
         }
     }
