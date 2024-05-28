@@ -53,6 +53,7 @@ public class HibernateRunner {
 //            session.persist(user);
 
             User user1 = session.get(User.class, "ivan@gmail.com");
+            User user2 = session.get(User.class, "ivan@gmail.com");
             session.getTransaction().commit();
         }
     }
