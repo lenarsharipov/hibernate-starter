@@ -38,7 +38,7 @@
         </filter>
     </appender>
 
-    <logger name="com.lenarsharipov">
+    <logger name="com.lenarsharipov" additivity="false">
         <level value="info"/>
         <appender-ref ref="console"/>
     </logger>
