@@ -4,8 +4,13 @@ import com.lenarsharipov.entity.User;
 import com.lenarsharipov.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HibernateRunner {
+
+    private static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
 
     public static void main(String[] args) {
         /*
@@ -18,37 +23,21 @@ public class HibernateRunner {
                 .firstname("Ivan")
                 .lastname("Ivanov")
                 .build();
+        log.info("User entity is in transient state: {}", user);
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
-            try (Session session1 = sessionFactory.openSession()) {
-                session1.beginTransaction();
-
-                /*
-                * Теперь user будет находиться
-                * в Persistent состоянии по отношению
-                * к session1. Но в состоянии Transient
-                * по отношению к session2
-                * */
+            Session session1 = sessionFactory.openSession();
+            try (session1) {
+                Transaction transaction = session1.beginTransaction();
+                log.trace("Transaction is created, {}", transaction);
                 session1.merge(user);
-
+                log.trace("User is in persistent state: {}, session: {}", user, session1);
                 session1.getTransaction().commit();
             }
-
-            try (Session session2 = sessionFactory.openSession()) {
-                session2.beginTransaction();
-
-//                session2.remove(user);
-//                System.out.println(user);
-//                session2.refresh(user);
-//                System.out.println(user);
-//                user.setFirstname("IVAN UPD");
-
-                user.setFirstname("Sveta");
-                user.setLastname("Svetikova");
-                User merged = session2.merge(user);
-
-                session2.getTransaction().commit();
-            }
+            log.warn("User is in a detached state: {}, session is closed: {}", user, session1);
+        } catch (Exception exception) {
+            log.error("Exception occured", exception);
+            throw exception;
         }
     }
 }
