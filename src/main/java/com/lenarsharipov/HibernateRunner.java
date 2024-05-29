@@ -1,60 +1,54 @@
 package com.lenarsharipov;
 
-import com.lenarsharipov.converter.BirthdayConverter;
-import com.lenarsharipov.entity.Birthday;
-import com.lenarsharipov.entity.Role;
 import com.lenarsharipov.entity.User;
+import com.lenarsharipov.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
-import org.hibernate.cfg.Configuration;
-
-import java.time.LocalDate;
 
 public class HibernateRunner {
 
     public static void main(String[] args) {
-
-        var configuration = new Configuration();
         /*
-        * Поле metadataSources отвечает за сущности
-        * (нашу метаинформацию)
-        * public Configuration addAnnotatedClass(Class annotatedClass) {
-        *       metadataSources.addAnnotatedClass(annotatedClass);
-        *       return this;
-        * }
+        * Здесь после создания,
+        * user находится в состоянии
+        * Transient.
         * */
-//        configuration.addAnnotatedClass(User.class);
-        configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
-        /*
-        * Теперь конвертер будет использоваться везде
-        * */
-//        configuration.addAttributeConverter(new BirthdayConverter(), true);
+        User user = User.builder()
+                .username("ivan@gmail.com")
+                .firstname("Ivan")
+                .lastname("Ivanov")
+                .build();
 
-        /*
-        * С такой настройкой, надо установить над конвертером @Converter(autoApply = true)
-        * */
-        configuration.addAttributeConverter(new BirthdayConverter());
-        configuration.configure();
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
+            try (Session session1 = sessionFactory.openSession()) {
+                session1.beginTransaction();
 
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory();
-            Session session = sessionFactory.openSession()) {
+                /*
+                * Теперь user будет находиться
+                * в Persistent состоянии по отношению
+                * к session1. Но в состоянии Transient
+                * по отношению к session2
+                * */
+                session1.merge(user);
 
-            session.beginTransaction();
+                session1.getTransaction().commit();
+            }
 
-            User user = User.builder()
-                    .username("ivan@gmail.com")
-                    .firstname("Ivan")
-                    .lastname("Ivanov")
-                    .birthDate(new Birthday(LocalDate.of(2000, 1, 19)))
-                    .role(Role.ADMIN)
-                    .build();
+            try (Session session2 = sessionFactory.openSession()) {
+                session2.beginTransaction();
 
-//            session.persist(user);
+//                session2.remove(user);
+//                System.out.println(user);
+//                session2.refresh(user);
+//                System.out.println(user);
+//                user.setFirstname("IVAN UPD");
 
-            User user1 = session.get(User.class, "ivan@gmail.com");
-            User user2 = session.get(User.class, "ivan@gmail.com");
-            session.getTransaction().commit();
+                user.setFirstname("Sveta");
+                user.setLastname("Svetikova");
+                User merged = session2.merge(user);
+
+                session2.getTransaction().commit();
+            }
         }
     }
 }
