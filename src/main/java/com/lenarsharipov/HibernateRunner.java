@@ -1,5 +1,6 @@
 package com.lenarsharipov;
 
+import com.lenarsharipov.entity.PersonalInfo;
 import com.lenarsharipov.entity.User;
 import com.lenarsharipov.util.HibernateUtil;
 import org.hibernate.Session;
@@ -19,9 +20,11 @@ public class HibernateRunner {
         * Transient.
         * */
         User user = User.builder()
-                .username("ivan@gmail.com")
-                .firstname("Ivan")
-                .lastname("Ivanov")
+                .username("petr@gmail.com")
+                .personalInfo(PersonalInfo.builder()
+                        .firstname("Petr")
+                        .lastname("Petrov")
+                        .build())
                 .build();
         log.info("User entity is in transient state: {}", user);
 

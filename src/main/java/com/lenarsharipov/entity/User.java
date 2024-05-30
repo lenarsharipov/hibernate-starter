@@ -17,13 +17,9 @@ public class User {
     @Id
     private String username;
 
-    private String firstname;
-
-    private String lastname;
-
-    //@Convert(converter = BirthdayConverter.class) // указываем, какой конвертер использовать
-    @Column(name = "birth_date")
-    private Birthday birthDate;
+    @Embedded // опционально
+    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
+    private PersonalInfo personalInfo;
 
     @Enumerated(EnumType.STRING)
     private Role role;
