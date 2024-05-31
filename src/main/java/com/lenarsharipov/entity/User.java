@@ -1,10 +1,7 @@
 package com.lenarsharipov.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +24,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    @ToString.Exclude
+    private Company company;
 }
