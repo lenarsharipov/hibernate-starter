@@ -1,10 +1,9 @@
 package com.lenarsharipov.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +18,9 @@ public class Company {
 
     @Column(unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "company")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<User> users;
 }

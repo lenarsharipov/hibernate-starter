@@ -30,27 +30,8 @@ public class HibernateRunner {
             try (session) {
                 Transaction transaction = session.beginTransaction();
 
-//                session.persist(company);
-//                session.persist(user);
-//
-//                company.setName(company.getName() + "UPD!");
-
-                User user1 = session.get(User.class, 1L);
-
-                /*
-                * здесь будет вызван прокси.
-                * */
-                Company company1 = user1.getCompany();
-                /* здесь ничего не произойдет, никакой инициализации
-                    потому что каждый прокси содержит метод для инициализации,
-                    а следовательно это company_id.
-                    Но если мы вызовем company1.getName(), то начнется
-                    процесс инициализации прокси.
-                 */
-                company1.getId();
-                String name = company1.getName();
-                Object object = Hibernate.unproxy(company1);
-//                System.out.println(user1);
+                User user = session.get(User.class, 1L);
+                session.evict(user);
 
                 session.getTransaction().commit();
             }

@@ -1,8 +1,13 @@
 package com.lenarsharipov;
 
+import com.lenarsharipov.entity.Company;
 import com.lenarsharipov.entity.User;
+import com.lenarsharipov.util.HibernateUtil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Cleanup;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -18,6 +23,19 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void oneToMany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 1);
+        System.out.println();
+
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkGetReflectionApi() throws SQLException,
