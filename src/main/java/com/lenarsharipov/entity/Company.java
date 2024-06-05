@@ -3,7 +3,8 @@ package com.lenarsharipov.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,8 +20,14 @@ public class Company {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<User> users;
+    @Builder.Default
+    private Set<User> users = new HashSet<>();
+
+    public void addUser(User user) {
+        this.users.add(user);
+        user.setCompany(this);
+    }
 }
