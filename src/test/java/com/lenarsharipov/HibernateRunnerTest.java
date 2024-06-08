@@ -1,6 +1,7 @@
 package com.lenarsharipov;
 
 import com.lenarsharipov.entity.Company;
+import com.lenarsharipov.entity.Profile;
 import com.lenarsharipov.entity.User;
 import com.lenarsharipov.util.HibernateUtil;
 import jakarta.persistence.Column;
@@ -24,6 +25,27 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkOneToOne() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            User user = User.builder()
+                    .username("test2@mail.com")
+                    .build();
+            Profile profile = Profile.builder()
+                    .language("ru")
+                    .street("Kasimov brothers 74")
+                    .build();
+//            session.persist(profile);
+            session.persist(user);
+            profile.setUser(user);
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void checkOrphanRemoval() {
