@@ -33,15 +33,14 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             User user = User.builder()
-                    .username("test2@mail.com")
+                    .username("test@mail.com")
                     .build();
             Profile profile = Profile.builder()
                     .language("ru")
                     .street("Kasimov brothers 74")
                     .build();
-//            session.persist(profile);
-            session.persist(user);
             profile.setUser(user);
+            session.persist(user);
 
             session.getTransaction().commit();
         }
