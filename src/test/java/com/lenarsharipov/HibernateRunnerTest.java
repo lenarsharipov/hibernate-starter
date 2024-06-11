@@ -1,10 +1,12 @@
 package com.lenarsharipov;
 
+import com.lenarsharipov.entity.Chat;
 import com.lenarsharipov.entity.Company;
 import com.lenarsharipov.entity.Profile;
 import com.lenarsharipov.entity.User;
 import com.lenarsharipov.util.HibernateUtil;
 import jakarta.persistence.Column;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Cleanup;
 import org.hibernate.Session;
@@ -25,6 +27,26 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkManyToMany() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Chat chat = session.get(Chat.class, 1L);
+            User user = session.get(User.class, 1L);
+            user.getChats().remove(chat);
+//            Chat chat = Chat.builder()
+//                    .name("dmdev")
+//                    .build();
+//            user.addChat(chat);
+//
+//            session.persist(chat);
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void checkOneToOne() {
