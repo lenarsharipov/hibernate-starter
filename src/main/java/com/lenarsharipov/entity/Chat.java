@@ -3,8 +3,8 @@ package com.lenarsharipov.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -24,5 +24,5 @@ public class Chat {
     @OneToMany(mappedBy = "chat")
     @Builder.Default
     @ToString.Exclude
-    private Set<UserChat> userChats = new HashSet<>();
+    private List<UserChat> userChats = new ArrayList<>();
 }
