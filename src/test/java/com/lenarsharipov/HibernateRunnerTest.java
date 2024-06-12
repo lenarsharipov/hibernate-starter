@@ -1,9 +1,6 @@
 package com.lenarsharipov;
 
-import com.lenarsharipov.entity.Chat;
-import com.lenarsharipov.entity.Company;
-import com.lenarsharipov.entity.Profile;
-import com.lenarsharipov.entity.User;
+import com.lenarsharipov.entity.*;
 import com.lenarsharipov.util.HibernateUtil;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToMany;
@@ -20,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -34,15 +32,23 @@ class HibernateRunnerTest {
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            Chat chat = session.get(Chat.class, 1L);
-            User user = session.get(User.class, 1L);
-            user.getChats().remove(chat);
-//            Chat chat = Chat.builder()
-//                    .name("dmdev")
-//                    .build();
-//            user.addChat(chat);
-//
-//            session.persist(chat);
+            User user = session.get(User.class, 1);
+
+
+            Chat chat = session.get(Chat.class, 1);
+
+
+            UserChat userChat = UserChat.builder()
+                    .createdAt(Instant.now())
+                    .createdBy(user.getUsername())
+                    .build();
+
+
+            userChat.setUser(user);
+            userChat.setChat(chat);
+
+
+            session.persist(userChat);
 
             session.getTransaction().commit();
         }

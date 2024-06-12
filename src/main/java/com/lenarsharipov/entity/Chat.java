@@ -21,8 +21,8 @@ public class Chat {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "chats")
+    @OneToMany(mappedBy = "chat")
     @Builder.Default
     @ToString.Exclude
-    private Set<User> users = new HashSet<>();
+    private Set<UserChat> userChats = new HashSet<>();
 }

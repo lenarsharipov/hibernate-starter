@@ -40,14 +40,6 @@ public class User {
 
     @Builder.Default
     @ToString.Exclude
-    @ManyToMany
-    @JoinTable(name = "users_chat",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "chat_id"))
-    private Set<Chat> chats = new HashSet<>();
-
-    public void addChat(Chat chat) {
-        chats.add(chat);
-        chat.getUsers().add(this);
-    }
+    @OneToMany(mappedBy = "user")
+    private Set<UserChat> userChats = new HashSet<>();
 }
