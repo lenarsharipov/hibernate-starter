@@ -1,6 +1,7 @@
 package com.lenarsharipov;
 
 import com.lenarsharipov.entity.*;
+import com.lenarsharipov.util.HibernateTestUtil;
 import com.lenarsharipov.util.HibernateUtil;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToMany;
@@ -29,7 +30,7 @@ class HibernateRunnerTest {
 
     @Test
     void checkH2() {
-        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
