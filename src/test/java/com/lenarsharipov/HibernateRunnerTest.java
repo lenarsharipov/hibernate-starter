@@ -29,17 +29,18 @@ class HibernateRunnerTest {
 
     @Test
     void localeInfo() {
-        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+    try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             Company company = session.get(Company.class, 1);
-            company.getLocales().addAll(
-                    List.of(
-                        LocaleInfo.of("ru", "Описание на русском"),
-                        LocaleInfo.of("tr", "Turkce tanitim"),
-                        LocaleInfo.of("en", "Description in English")
-                    ));
+//            company.getLocales().addAll(
+//                    List.of(
+//                        LocaleInfo.of("ru", "Описание на русском"),
+//                        LocaleInfo.of("tr", "Turkce tanitim"),
+//                        LocaleInfo.of("en", "Description in English")
+//                    ));
+            company.getUsers().forEach(System.out::println);
 
             session.getTransaction().commit();
         }
@@ -100,8 +101,8 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             Company company = session.get(Company.class, 2);
-            Set<User> users = company.getUsers();
-            users.removeIf(user -> user.getId().equals(1L));
+//            Set<User> users = company.getUsers();
+//            users.removeIf(user -> user.getId().equals(1L));
 
             session.getTransaction().commit();
         }
@@ -119,8 +120,8 @@ class HibernateRunnerTest {
             session.getTransaction().commit();
         }
 
-        Set<User> users = company.getUsers();
-        System.out.println(users.size());
+//        Set<User> users = company.getUsers();
+//        System.out.println(users.size());
     }
 
     @Test

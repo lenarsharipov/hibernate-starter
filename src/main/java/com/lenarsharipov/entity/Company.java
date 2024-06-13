@@ -2,11 +2,10 @@ package com.lenarsharipov.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SortComparator;
+import org.hibernate.annotations.SortNatural;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +25,11 @@ public class Company {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Builder.Default
-    private Set<User> users = new HashSet<>();
+//    @OrderBy("username DESC, personalInfo.lastname ASC")
+//    @OrderColumn(name = "id")
+//    @SortComparator()
+    @SortNatural
+    private SortedSet<User> users = new TreeSet<>();
 
     @Builder.Default
     @ElementCollection
