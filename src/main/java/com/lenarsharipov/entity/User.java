@@ -10,13 +10,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "username")
-@Builder
 @Entity
-@Table(name = "users", schema = "public")
-public class User implements Comparable<User>, BaseEntity<Long> {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class User implements Comparable<User>, BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true)
@@ -34,11 +33,10 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @ToString.Exclude
     private Company company;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private Profile profile;
 
-    @Builder.Default
     @ToString.Exclude
     @OneToMany(mappedBy = "user")
     private List<UserChat> userChats = new ArrayList<>();

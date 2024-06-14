@@ -16,6 +16,8 @@
       <mapping class="com.lenarsharipov.entity.Profile"/>
       <mapping class="com.lenarsharipov.entity.Chat"/>
       <mapping class="com.lenarsharipov.entity.UserChat"/>
+      <mapping class="com.lenarsharipov.entity.Programmer"/>
+      <mapping class="com.lenarsharipov.entity.Manager"/>
 
   </session-factory>
 </hibernate-configuration>

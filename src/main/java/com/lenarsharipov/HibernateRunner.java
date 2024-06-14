@@ -15,14 +15,7 @@ public class HibernateRunner {
                 .name("Google")
                 .build();
 
-        User user = User.builder()
-                .username("petr@gmail.com")
-                .personalInfo(PersonalInfo.builder()
-                        .firstname("Petr")
-                        .lastname("Petrov")
-                        .build())
-                .company(company)
-                .build();
+        User user = null;
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
             Session session = sessionFactory.openSession();
