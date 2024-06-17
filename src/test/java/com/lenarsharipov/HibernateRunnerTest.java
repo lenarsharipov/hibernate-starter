@@ -3,30 +3,44 @@ package com.lenarsharipov;
 import com.lenarsharipov.entity.*;
 import com.lenarsharipov.util.HibernateTestUtil;
 import com.lenarsharipov.util.HibernateUtil;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.FlushModeType;
 import lombok.Cleanup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.QueryHints;
+import org.hibernate.jpa.AvailableHints;
+import org.hibernate.jpa.HibernateHints;
+import org.hibernate.query.Query;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
-import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkHql() {
+        try (var sf = HibernateTestUtil.buildSessionFactory();
+            var session = sf.openSession()) {
+            session.beginTransaction();
+
+            String name = "Ivan";
+            List<User> users = session.createNamedQuery("findUserByName", User.class)
+                    .setParameter("firstname", name)
+                    .setParameter("companyName", "Google")
+                    .setFlushMode(FlushModeType.AUTO)
+                    .list();
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void checkH2() {

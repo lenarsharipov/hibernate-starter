@@ -6,6 +6,10 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQuery(name = "findUserByName", query = "select u from User u" +
+                                             " where u.personalInfo.firstname = :firstname " +
+                                             "and u.company.name = :companyName " +
+                                             "order by u.personalInfo.lastname desc")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
