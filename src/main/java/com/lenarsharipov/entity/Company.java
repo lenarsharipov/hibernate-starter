@@ -21,24 +21,25 @@ public class Company {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @Builder.Default
-//    @OrderBy("username DESC, personalInfo.lastname ASC")
-//    @OrderColumn(name = "id")
-//    @SortComparator()
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapKey(name = "username")
     @SortNatural
-    private SortedSet<User> users = new TreeSet<>();
+    private Map<String, User> users = new TreeMap<>();
 
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))
 //    @AttributeOverride(name = "lang", @Column(name = "language"))
-    private List<LocaleInfo> locales = new ArrayList<>();
+//    private List<LocaleInfo> locales = new ArrayList<>();
+    @MapKeyColumn(name = "lang")
+    @Column(name = "description")
+    private Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
-        this.users.add(user);
+        users.put(user.getUsername(), user);
         user.setCompany(this);
     }
 }

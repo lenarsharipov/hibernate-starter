@@ -19,7 +19,7 @@ import static com.lenarsharipov.util.StringUtils.SPACE;
 @Builder
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Comparable<User>, BaseEntity<Long> {
 
     @Id
@@ -36,20 +36,25 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+//    @ToString.Exclude
+//    @OneToOne(mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY)
+//    private Profile profile;
+
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    @ToString.Exclude
     private Company company;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private Profile profile;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user")
     private List<UserChat> userChats = new ArrayList<>();
+//    private Set<UserChat> userChats = new HashSet<>();
 
+    @ToString.Exclude
     @Builder.Default
+//    @OneToMany(mappedBy = "receiver")
     @OneToMany(mappedBy = "receiver")
     private List<Payment> payments = new ArrayList<>();
 

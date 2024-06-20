@@ -4,30 +4,28 @@ import com.lenarsharipov.entity.Company;
 import com.lenarsharipov.entity.PersonalInfo;
 import com.lenarsharipov.entity.User;
 import com.lenarsharipov.util.HibernateUtil;
+import com.lenarsharipov.util.TestDataImporter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class HibernateRunner {
 
     public static void main(String[] args) {
-        Company company = Company.builder()
-                .name("Google")
-                .build();
+        try (SessionFactory sf = HibernateUtil.buildSessionFactory();
+            var session = sf.openSession()) {
+            session.beginTransaction();
 
-        User user = null;
+//            User user = session.get(User.class, 1L);
+//            System.out.println(user.getPayments().size());
+//            System.out.println(user.getCompany().getName());
 
-        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
-            Session session = sessionFactory.openSession();
-            try (session) {
-                Transaction transaction = session.beginTransaction();
-                company.addUser(user);
-                session.persist(company);
-//                User user = session.get(User.class, 1L);
-//                session.evict(user);
+            List<User> users = session.createQuery("select u from User u", User.class)
+                    .list();
 
-                session.getTransaction().commit();
-            }
+            session.getTransaction().commit();
         }
     }
 }
