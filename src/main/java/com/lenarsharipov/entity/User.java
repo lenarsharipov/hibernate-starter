@@ -6,6 +6,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lenarsharipov.util.StringUtils.SPACE;
+
 @NamedQuery(name = "findUserByName", query = "select u from User u" +
                                              " where u.personalInfo.firstname = :firstname " +
                                              "and u.company.name = :companyName " +
@@ -14,10 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "username")
+@Builder
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User implements Comparable<User>, BaseEntity<Long> {
+public class User implements Comparable<User>, BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +49,16 @@ public abstract class User implements Comparable<User>, BaseEntity<Long> {
     @OneToMany(mappedBy = "user")
     private List<UserChat> userChats = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "receiver")
+    private List<Payment> payments = new ArrayList<>();
+
     @Override
     public int compareTo(User o) {
         return username.compareTo(o.getUsername());
+    }
+
+    public String fullName() {
+        return getPersonalInfo().getFirstname() + SPACE + getPersonalInfo().getLastname();
     }
 }

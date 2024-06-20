@@ -19,6 +19,7 @@
       <mapping class="com.lenarsharipov.entity.UserChat"/>
       <mapping class="com.lenarsharipov.entity.Programmer"/>
       <mapping class="com.lenarsharipov.entity.Manager"/>
+      <mapping class="com.lenarsharipov.entity.Payment"/>
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

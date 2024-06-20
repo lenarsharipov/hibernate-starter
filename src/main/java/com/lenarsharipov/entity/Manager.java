@@ -14,21 +14,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+//@PrimaryKeyJoinColumn(name = "id")
 public class Manager extends User {
 
     private String projectName;
 
-    @Builder
-    public Manager(Long id,
-                   String username,
-                   PersonalInfo personalInfo,
-                   Role role,
-                   Company company,
-                   Profile profile,
-                   List<UserChat> userChats,
-                   String projectName) {
-        super(id, username, personalInfo, role, company, profile, userChats);
-        this.projectName = projectName;
-    }
+//    @Builder
+//    public Manager(Long id,
+//                   String username,
+//                   PersonalInfo personalInfo,
+//                   Role role,
+//                   Company company,
+//                   Profile profile,
+//                   List<UserChat> userChats,
+//                   String projectName) {
+//        super(id, username, personalInfo, role, company, profile, userChats);
+//        this.projectName = projectName;
+//    }
 }

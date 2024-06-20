@@ -53,21 +53,21 @@ class HibernateRunnerTest {
                     .build();
             session.persist(google);
 
-            Programmer programmer = Programmer.builder()
-                    .username("ivan@mail.com")
-                    .language(Language.JAVA)
-                    .company(google)
-                    .build();
+//            Programmer programmer = Programmer.builder()
+//                    .username("ivan@mail.com")
+//                    .language(Language.JAVA)
+//                    .company(google)
+//                    .build();
+//
+//            session.persist(programmer);
+//
+//            Manager manager = Manager.builder()
+//                    .username("sveta@mail.com")
+//                    .projectName("Starter")
+//                    .company(google)
+//                    .build();
 
-            session.persist(programmer);
-
-            Manager manager = Manager.builder()
-                    .username("sveta@mail.com")
-                    .projectName("Starter")
-                    .company(google)
-                    .build();
-
-            session.persist(manager);
+//            session.persist(manager);
             /*
             * Сразу делаем flush, чтобы увидеть проблему
             * */
