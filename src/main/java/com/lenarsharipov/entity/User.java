@@ -2,6 +2,8 @@ package com.lenarsharipov.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
+    @Fetch(FetchMode.JOIN)
     private Company company;
 
     @ToString.Exclude
@@ -54,8 +57,8 @@ public class User implements Comparable<User>, BaseEntity<Long> {
 
     @ToString.Exclude
     @Builder.Default
-//    @OneToMany(mappedBy = "receiver")
     @OneToMany(mappedBy = "receiver")
+    @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
     @Override
