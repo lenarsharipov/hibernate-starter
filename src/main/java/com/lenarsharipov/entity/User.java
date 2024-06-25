@@ -47,7 +47,7 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    @Fetch(FetchMode.JOIN)
+//    @Fetch(FetchMode.JOIN)
     private Company company;
 
     @ToString.Exclude
@@ -58,7 +58,7 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @ToString.Exclude
     @Builder.Default
     @OneToMany(mappedBy = "receiver")
-    @Fetch(FetchMode.SUBSELECT)
+//    @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
     @Override

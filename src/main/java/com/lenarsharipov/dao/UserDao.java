@@ -128,6 +128,7 @@ public class UserDao {
         CriteriaQuery<Payment> criteria = cb.createQuery(Payment.class);
         Root<Payment> payment = criteria.from(Payment.class);
         Join<Payment, User > receiver = payment.join("receiver");
+        payment.fetch("receiver");
         Join<User, Company> company = receiver.join("company");
 
         criteria.select(payment).where(

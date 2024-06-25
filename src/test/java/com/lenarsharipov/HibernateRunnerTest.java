@@ -103,7 +103,7 @@ class HibernateRunnerTest {
 //                        LocaleInfo.of("tr", "Turkce tanitim"),
 //                        LocaleInfo.of("en", "Description in English")
 //                    ));
-            company.getUsers().forEach(System.out::println);
+//            company.getUsers().forEach(System.out::println);
 
             session.getTransaction().commit();
         }
