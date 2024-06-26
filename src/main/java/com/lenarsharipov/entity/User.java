@@ -4,12 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.lenarsharipov.util.StringUtils.SPACE;
 
+@FetchProfile(name = "withCompanyAndPayment", fetchOverrides = {
+        @FetchProfile.FetchOverride(
+                entity = User.class, association = "company", mode = FetchMode.JOIN
+        ),
+        @FetchProfile.FetchOverride(
+                entity = User.class, association = "payments", mode = FetchMode.JOIN
+        )
+})
 @NamedQuery(name = "findUserByName", query = "select u from User u" +
                                              " where u.personalInfo.firstname = :firstname " +
                                              "and u.company.name = :companyName " +
