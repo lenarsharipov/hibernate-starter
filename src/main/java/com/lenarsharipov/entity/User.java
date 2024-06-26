@@ -16,7 +16,7 @@ import static com.lenarsharipov.util.StringUtils.SPACE;
         attributeNodes = {
                 @NamedAttributeNode("company"),
                 @NamedAttributeNode(value = "userChats", subgraph = "chats"),
-                @NamedAttributeNode(value = "payments")
+//                @NamedAttributeNode(value = "payments")
         },
         subgraphs = {
                 @NamedSubgraph(name = "chats", attributeNodes = @NamedAttributeNode("chat"))
@@ -79,7 +79,7 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @ToString.Exclude
     @Builder.Default
     @OneToMany(mappedBy = "receiver")
-//    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
     @Override
