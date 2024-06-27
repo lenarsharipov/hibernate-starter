@@ -31,10 +31,18 @@ public class HibernateRunner {
 //            System.out.println(user.getUserChats().size());
 //            System.out.println(user.getPayments().size());
 
+//            List<User> users = session.createQuery(
+//                    "select u from User u ",
+//                                User.class)
+//                    .setHint(AvailableHints.HINT_SPEC_FETCH_GRAPH, session.getEntityGraph("WithCompanyAndChat"))
+//                    .list();
+//            users.forEach(user -> System.out.println(user.getUserChats()));
+//            users.forEach(user -> System.out.println(user.getCompany().getName()));
+//            users.forEach(user -> System.out.println(user.getPayments()));
+
             List<User> users = session.createQuery(
-                    "select u from User u ",
-                                User.class)
-                    .setHint(AvailableHints.HINT_SPEC_FETCH_GRAPH, session.getEntityGraph("WithCompanyAndChat"))
+                            "select u from User u",
+                            User.class)
                     .list();
             users.forEach(user -> System.out.println(user.getUserChats()));
             users.forEach(user -> System.out.println(user.getCompany().getName()));
