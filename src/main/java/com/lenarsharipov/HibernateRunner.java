@@ -6,6 +6,7 @@ import com.lenarsharipov.entity.PersonalInfo;
 import com.lenarsharipov.entity.User;
 import com.lenarsharipov.util.HibernateUtil;
 import com.lenarsharipov.util.TestDataImporter;
+import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,27 +26,21 @@ public class HibernateRunner {
     @Transactional
     public static void main(String[] args) {
         try (SessionFactory sf = HibernateUtil.buildSessionFactory();
-            var session = sf.openSession()) {
-            session.doWork(new Work() {
-                @Override
-                public void execute(Connection connection) throws SQLException {
-                    System.out.println(connection.getTransactionIsolation());
+            var session1 = sf.openSession();
+            var session2 = sf.openSession()) {
+            session1.beginTransaction();
+            session2.beginTransaction();
+            TestDataImporter.importData(sf);
 
-                }
-            });
+//            Payment payment = session1.find(Payment.class, 1L, LockModeType.OPTIMISTIC);
+            Payment payment = session1.find(Payment.class, 1L);
+            payment.setAmount(payment.getAmount() + 10);
 
-//            try {
-//                session.beginTransaction();
-//
-//                Payment payment1 = session.find(Payment.class, 1L);
-//                Payment payment2 = session.find(Payment.class, 2L);
-//
-//                session.getTransaction().commit();
-//            } catch (Exception exception) {
-//                session.getTransaction().rollback();
-//                throw exception;
-//            }
-//            session.persist();
+            Payment samePayment = session2.find(Payment.class, 1L);
+            samePayment.setAmount(samePayment.getAmount() + 20);
+
+            session1.getTransaction().commit();
+            session2.getTransaction().commit();
         }
     }
 }
