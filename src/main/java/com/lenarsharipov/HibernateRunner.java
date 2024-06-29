@@ -26,21 +26,14 @@ public class HibernateRunner {
     @Transactional
     public static void main(String[] args) {
         try (SessionFactory sf = HibernateUtil.buildSessionFactory();
-            var session1 = sf.openSession();
-            var session2 = sf.openSession()) {
-            session1.beginTransaction();
-            session2.beginTransaction();
+            var session = sf.openSession()) {
+            session.beginTransaction();
             TestDataImporter.importData(sf);
 
-//            Payment payment = session1.find(Payment.class, 1L, LockModeType.OPTIMISTIC);
-            Payment payment = session1.find(Payment.class, 1L);
+            Payment payment = session.find(Payment.class, 1L);
             payment.setAmount(payment.getAmount() + 10);
 
-            Payment samePayment = session2.find(Payment.class, 1L);
-            samePayment.setAmount(samePayment.getAmount() + 20);
-
-            session1.getTransaction().commit();
-            session2.getTransaction().commit();
+            session.getTransaction().commit();
         }
     }
 }

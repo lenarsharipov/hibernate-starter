@@ -9,21 +9,23 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
+import java.time.Instant;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@OptimisticLocking(type = OptimisticLockType.DIRTY)
-@DynamicUpdate
-public class Payment implements BaseEntity<Long> {
+//@OptimisticLocking(type = OptimisticLockType.DIRTY)
+//@DynamicUpdate
+public class Payment extends AuditableEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Version
-//    private Long version = 0L;
+    @Version
+    private Long version = 0L;
 
     @Column(nullable = false)
     private Integer amount;

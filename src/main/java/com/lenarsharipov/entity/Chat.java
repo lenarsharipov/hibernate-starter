@@ -21,6 +21,9 @@ public class Chat {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Builder.Default
+    private Integer count = 0;
+
     @OneToMany(mappedBy = "chat")
     @Builder.Default
     @ToString.Exclude
