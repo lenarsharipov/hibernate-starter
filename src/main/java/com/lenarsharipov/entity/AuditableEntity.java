@@ -1,10 +1,8 @@
 package com.lenarsharipov.entity;
 
-import com.lenarsharipov.listener.AuditListener;
+import com.lenarsharipov.listener.AuditDatesListener;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +12,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @MappedSuperclass
-@EntityListeners(AuditListener.class)
+@EntityListeners(AuditDatesListener.class)
 public abstract class AuditableEntity<T extends Serializable>
         implements BaseEntity<T> {
 

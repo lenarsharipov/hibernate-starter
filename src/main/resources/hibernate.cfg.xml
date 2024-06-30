@@ -22,6 +22,7 @@
       <mapping class="com.lenarsharipov.entity.Programmer"/>
       <mapping class="com.lenarsharipov.entity.Manager"/>
       <mapping class="com.lenarsharipov.entity.Payment"/>
+      <mapping class="com.lenarsharipov.entity.Audit"/>
 
     <!-- DB schema will be updated if needed -->
   </session-factory>
