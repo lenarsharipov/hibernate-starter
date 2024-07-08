@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SortComparator;
 import org.hibernate.annotations.SortNatural;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import java.util.*;
 
@@ -12,7 +14,8 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Company {
+@Audited
+public class Company implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +24,7 @@ public class Company {
     @Column(unique = true)
     private String name;
 
+    @NotAudited
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -29,6 +33,7 @@ public class Company {
     @SortNatural
     private Map<String, User> users = new TreeMap<>();
 
+    @NotAudited
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))

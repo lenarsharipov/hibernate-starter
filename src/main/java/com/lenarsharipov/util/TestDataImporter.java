@@ -57,7 +57,7 @@ public class TestDataImporter {
         Company company = Company.builder()
                 .name(name)
                 .build();
-        session.save(company);
+        session.persist(company);
 
         return company;
     }
@@ -76,7 +76,7 @@ public class TestDataImporter {
                         .build())
                 .company(company)
                 .build();
-        session.save(user);
+        session.persist(user);
 
         return user;
     }
@@ -86,6 +86,6 @@ public class TestDataImporter {
                 .receiver(user)
                 .amount(amount)
                 .build();
-        session.save(payment);
+        session.persist(payment);
     }
 }

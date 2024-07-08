@@ -1,5 +1,6 @@
 package com.lenarsharipov;
 
+import com.lenarsharipov.dao.PaymentRepository;
 import com.lenarsharipov.entity.Company;
 import com.lenarsharipov.entity.Payment;
 import com.lenarsharipov.entity.PersonalInfo;
@@ -16,6 +17,9 @@ import org.hibernate.graph.RootGraph;
 import org.hibernate.jdbc.Work;
 import org.hibernate.jpa.AvailableHints;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,15 +29,19 @@ public class HibernateRunner {
 
     @Transactional
     public static void main(String[] args) {
-        try (SessionFactory sf = HibernateUtil.buildSessionFactory();
-            var session = sf.openSession()) {
-            session.beginTransaction();
-            TestDataImporter.importData(sf);
+        try (SessionFactory sf = HibernateUtil.buildSessionFactory()) {
+             var session = (Session) Proxy.newProxyInstance(
+                    SessionFactory.class.getClassLoader(),
+                    new Class[]{Session.class},
+                     (proxy, method, args1) -> method.invoke(sf.getCurrentSession(), args1));
 
-            Payment payment = session.find(Payment.class, 1L);
-            payment.setAmount(payment.getAmount() + 10);
+             session.beginTransaction();
 
-            session.getTransaction().commit();
+             var paymentRepository = new PaymentRepository(session);
+
+             paymentRepository.findById(1L).ifPresent(System.out::println);
+
+             session.getTransaction().commit();
         }
     }
 }

@@ -19,7 +19,7 @@ public class HibernateUtil {
         configuration.configure();
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
-        registerListeners(sessionFactory);
+//        registerListeners(sessionFactory);
         return sessionFactory;
     }
 
